@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 from getImageSize import getImageFileSize
 from jpChecker import find_japanese_char as catchJap
+from time import sleep
 
 SLEEP_TIME: int = 10
 
@@ -151,7 +152,7 @@ def destruct_info_upd(containerPath):
     except:
         yorTextImage = containerPath.find_element_by_xpath(yorTextPath).text
         vehicleInfo["yorText"] = yorTextImage.split()[-1]
-        vehicleInfo["yorImage"] = 0
+        vehicleInfo["yorImage"] = -1
 
     return vehicleInfo
 
@@ -192,6 +193,8 @@ def errorCheckUpd(vehiclesList, lookout=errorList, reportLog=errorReturnValue, c
                     count[key].append(vehicle[ibcnumKey])
             if key == 'yorImage':
                 # if lookout[key] == vehicle[key]:
+                sleep(0.5)
+                # add condition to check if image size is lesser than threshold  (<= 950) => YOR not visible
                 if lookout[key] == getImageFileSize(vehicle[key]):
                     count[key].append(vehicle[ibcnumKey])
                     errors.append(f"This vehicle has {reportLog[key]}")

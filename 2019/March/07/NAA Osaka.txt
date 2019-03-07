@@ -1,0 +1,29 @@
+#############################################################
+NAA OSAKA Errors: 
+
+Data Collection lasted for 4 minutes and 28.3 seconds.
+Error checking lasted for 3 minutes and 5.4 seconds.
+Finished checking on Thursday, 07. March 2019 01:59PM 
+#############################################################
+Japanese Characters:
+No issues
+-------------------------------------------------------------
+Unknown Year/Make/Model:
+No issues
+-------------------------------------------------------------
+Unknown Chassis Prefix:
+No issues
+-------------------------------------------------------------
+No Transmission/Color/Fuel Type:
+No issues
+-------------------------------------------------------------
+No Equipment:
+No issues
+-------------------------------------------------------------
+Missing Yor:
+No issues
+-------------------------------------------------------------
+No Yor Image:
+110264122,
+110264032,
+-------------------------------------------------------------

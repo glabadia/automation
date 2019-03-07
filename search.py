@@ -54,8 +54,12 @@ def conditionGrade(driver):
 def searchFunc(driver, chassisNum=""):
     sleep(5)    # delay for 3 seconds to load more info
 
-    ibcTextBoxPath = "input.form-control.IDVehicle.ibcnumber.isnumber"
-    ibcTextBox = driver.find_element_by_css_selector(ibcTextBoxPath)
+    # ibcTextBoxPath = "input.form-control.IDVehicle.ibcnumber.isnumber"
+    # ibcTextBox = driver.find_element_by_css_selector(ibcTextBoxPath)
+    ibcTextBoxPath = "//div[@class='form-adjust width-61per']//input[@name='idvehicle']"
+    ibcTextBox = WebDriverWait(driver, SLEEP_TIME).until(
+        EC.presence_of_element_located((By.XPATH, ibcTextBoxPath)))
+    # ibcTextBox = driver.find_element_by_xpath(ibcTextBoxPath)
     ibcTextBox.clear()
 
     if chassisNum:

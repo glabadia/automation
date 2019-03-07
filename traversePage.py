@@ -35,13 +35,16 @@ def nextResults(webdriver):
         # //div[@class="no-result-message "][@style="display: none;"]=> for no result message not displayed
         # //div[@class="no-result-message "][@style=""]=> for no result message not displayed (Note the "")
         sleep(SLEEP_TIME)
+        # naa osaka has issues
+        checkMessage = checkNoResultsMessage(webdriver)
+        print(f"No resuls message: {checkMessage}")
+        if checkMessage:
+            break
 
         expandVehicleInfoIdirect(webdriver)
 
         # init errorchecking..
         # if error exists => break while loop
-        if checkNoResultsMessage(webdriver):
-            break
 
         if not hasGotAuctionName:
             hasGotAuctionName = True
@@ -55,14 +58,12 @@ def nextResults(webdriver):
 
         print(f"Checking [Page {activePage.text}]..")
 
-        # print(retrieveInfoTest(webdriver))
         start = time()
         retrieved_details = retrieveInfoUpd(webdriver)
         infoList.extend(retrieved_details)
         end = time()
-        print(retrieved_details)
+        # print(retrieved_details)
 
-        # activePage.get_attribute('class') == 'disabled' or
         if nextPage.text == "»":
             isEnd = True
             print("Traverse reached last page..")
@@ -89,7 +90,7 @@ def nextResults(webdriver):
     checkErrorList = errorCheckUpd(infoList)
 
     populate_errors = dictErrors(checkErrorList[1])
-    print(populate_errors)
+    # print(populate_errors)
     print("----------------------------------------------------------")
     printErrors(populate_errors)
 

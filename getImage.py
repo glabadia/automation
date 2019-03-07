@@ -27,9 +27,9 @@ from bs4 import BeautifulSoup as Soup
 
 
 urlList = [
-    "http://138.201.52.234/imgs/dyJ2O5ZnVGaLpjCgSr4JtiXYvulKsUtDrHbHJEvczM",
-    "http://138.201.52.236/imgs/dyJ2O5ZnVGaLpjCgSr4JtiXYvulKsUtEeQNQigrh7z",
-    "http://138.201.52.234/imgs/dyJ2O5ZGYxX3QVFVucXdYkUoGQvH3jVfVM7DukZlTg"
+    "http://138.201.52.234/imgs/dyJ2O5ZGYxX3QVFVucXdYkUoGQvH3jVfVM7DukZlTg",
+    "http://img1.jcarinfo.net/gix.php?&op=ifPqIaIKIagKIltNg5IqcltW2Y3sQvdHCF3sImetWQe*IahsIQ3tIlt6COn*Cfd1MRXDif4HLbAn7SV8AYYqAS.AV8tQ46XsMOGuhK&time=201903071520&inya=true",
+    "http://img2.jcarinfo.net/gix.php?&op=ifPqIaIKIagKIltNg5IqcltCCf0aLuG9hFSpg8TuIa3UIaIKduTvdmeqMOHNhFn*4bADLfnFgRtX48tYYnAS7SV8AYYqYFMdLvVshBI&time=201903071620&inya=true"
 ]
 # url = "http://138.201.52.234/imgs/dyJ2O5ZnVGaLpjCgSr4JtiXYvulKsUtDrHbHJEvczM"
 # url = "http://138.201.52.236/imgs/dyJ2O5ZnVGaLpjCgSr4JtiXYvulKsUtEeQNQigrh7z"

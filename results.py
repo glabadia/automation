@@ -31,10 +31,11 @@ def expandVehicleInfoIdirect(driver):
     # sleep for 7-15 seconds to allow the browser to populate data, and fill the div with desired results.
     # sleep(20)
     expandPath = "//div[@class='visible-md visible-lg right-expand-all']"
+    expandCSS = "i.glyphicon.text-left.expand-icon.glyphicon-plus-sign"
     loaderOnInvisible = "//div[@id='loader'][contains(@style,'display: none;')]"
-    errorText = "Your search returned no results. Please review and adjust your search parameters to include more vehicles. Search parameters that are too narrow sometimes filter out all vehicles. Try resetting your search form by clicking on the reset button then do a simple make and model search."
     print("Waiting to populate data..")
 
+    # i.glyphicon.text-left.expand-icon.glyphicon-plus-sign::before
     # expandButton = driver.find_element_by_xpath(expandPath)
     # sleep(SLEEP_TIME)  # Allow for the loader image to fade out in the browser
     isLoaderPresent = False
@@ -47,9 +48,17 @@ def expandVehicleInfoIdirect(driver):
     if isLoaderPresent:
         print("Loader gone!")
         try:
-            expandButton = WebDriverWait(driver, EXPAND_WAIT_TIME).until(
-                EC.presence_of_element_located((By.XPATH, expandPath)))
-            expandButton.click()
+            # expandButton = WebDriverWait(driver, EXPAND_WAIT_TIME).until(
+            #     EC.presence_of_element_located((By.XPATH, expandPath)))
+
+            # if isPlusExist:
+            #     print("Expand button still exist!")
+            isPlusExist = True
+            while isPlusExist:
+                expandButton = driver.find_element_by_xpath(expandPath)
+                expandButton.click()
+                isPlusExist = driver.find_elements_by_css_selector(expandCSS)
+
         except Exception as e:
             print(f"Error, {e}")
     else:
