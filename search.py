@@ -72,7 +72,6 @@ def searchFunc(driver, chassisNum=""):
     # WebDriverWait(driver, EXPAND_WAIT_TIME).until(EC.presence_of_element_located((By.XPATH, expandPath)))
     try:
         searchPath = "//button[@class='btn btn-primary btn-search search']"
-        # searchButton = driver.find_element_by_xpath(searchPath)
         searchButton = WebDriverWait(driver, SLEEP_TIME).until(
             EC.presence_of_element_located((By.XPATH, searchPath)))
         searchButton.click()
