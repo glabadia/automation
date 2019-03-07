@@ -100,8 +100,12 @@ def destruct_info(containerPath):
 
 def getAuctionHouse(dc_driver):
     auctionHousePath = "//span[starts-with(@id,'IBCNum')]"
-    auctionHouseContainer = WebDriverWait(dc_driver, SLEEP_TIME).until(
-        EC.presence_of_element_located((By.XPATH, auctionHousePath)))
+    try:
+        auctionHouseContainer = WebDriverWait(dc_driver, SLEEP_TIME).until(
+            EC.presence_of_element_located((By.XPATH, auctionHousePath)))
+    except Exception as e:
+        print(f"Error: {e}")
+
     # auctionHouseContainer = dc_driver.find_element_by_xpath(auctionHousePath)
     return auctionHouseContainer.text[:-10]
 
@@ -134,8 +138,10 @@ def destruct_info_upd(containerPath):
     yorTextImage = "None"
 
     try:
-        yorTextImage = getImageFileSize(containerPath.find_element_by_xpath(
-            yorImagePath).get_attribute('src'))
+        # yorTextImage = getImageFileSize(containerPath.find_element_by_xpath(
+        #     yorImagePath).get_attribute('src'))
+        yorTextImage = containerPath.find_element_by_xpath(
+            yorImagePath).get_attribute('src')
         # print("destruct image path begin..")
         # yorTextImage = getImageFileSize(containerPath.find_element_by_xpath(
         #     yorImagePath).get_attribute('src'))
@@ -174,10 +180,6 @@ def errorChecking(vehiclesList):
     return vehicleErrors
 
 
-def traverseKeys():
-    return None
-
-
 def errorCheckUpd(vehiclesList, lookout=errorList, reportLog=errorReturnValue, count=errorCounter):
     ibcnumKey = "ibcnum"
     vehicleErrors = []
@@ -189,7 +191,8 @@ def errorCheckUpd(vehiclesList, lookout=errorList, reportLog=errorReturnValue, c
                     errors.append(f"This vehicle has {reportLog['jap_char']}")
                     count[key].append(vehicle[ibcnumKey])
             if key == 'yorImage':
-                if lookout[key] == vehicle[key]:
+                # if lookout[key] == vehicle[key]:
+                if lookout[key] == getImageFileSize(vehicle[key]):
                     count[key].append(vehicle[ibcnumKey])
                     errors.append(f"This vehicle has {reportLog[key]}")
             else:
@@ -249,7 +252,9 @@ def printToFile(duration, workingDirectory, fileName="testFile", contentList="")
         writer.write("\n")
         # writer.write(f"Data Collection lasted for {convert_time(duration):.1f} seconds.\n")
         writer.write(
-            f"Data Collection lasted for {convert_time(duration)} seconds.\n")
+            f"Data Collection lasted for {convert_time(duration[0])} seconds.\n")
+        writer.write(
+            f"Error checking lasted for {convert_time(duration[1])} seconds.\n")
         writer.write(f"Finished checking on {getTimeStamp()} \n")
         writer.write(
             "#############################################################\n")

@@ -52,14 +52,6 @@ def conditionGrade(driver):
 
 
 def searchFunc(driver, chassisNum=""):
-    #   form.id.main-search
-    #   div.row
-    #   div.col-lg-12 width-100per form-adjust float-none text-center margin-bottom-5px
-    #   div.text-center search-filter-btn-group width-100per
-    #   button.btn btn-primary btn-search search
-    # searchPath = "//form[@id='main-search']/div[@class='row']/div[@class='div.col-lg-12 width-100per form-adjust float-none text-center margin-bottom-5px']/div[@class='text-center search-filter-btn-group width-100per']/button[@class='btn btn-primary btn-search search']"
-    # searchPath = "//form[@id = 'main-search']/div[@class = 'row']/div[@class = 'col-lg-12 width-100per form-adjust float-none text-center margin-bottom-5px']/div[@class = 'text-center search-filter-btn-group width-100per']/button[@class='btn btn-primary btn-search search']"
-    #     print(searchButton.text) prints the Search text
     sleep(5)    # delay for 3 seconds to load more info
 
     ibcTextBoxPath = "input.form-control.IDVehicle.ibcnumber.isnumber"
@@ -90,8 +82,6 @@ def calibrateSearch(driver):
     '''
     if previous search yields a no-result-message status, initiate recalibration sequence
     '''
-    # btsPath = "button.btn.btn-default.margin-left-15px.back-to-search"
-    # btsButton = driver.find_element_by_css_selector(btsPath)
     print("Initiate Calibrate Search...")
     btsPath = "//div[contains(@class,'no-result-message')]//button[@type='button'][contains(text(),'Back to Search')]"
     btsButton = driver.find_element_by_xpath(btsPath)

@@ -4,8 +4,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
 from time import sleep, time
-from utils import errorCheckUpd, printErrors, dictErrors, getAuctionHouse, printToFile, createDirectory
+from utils import errorCheckUpd, printErrors, dictErrors, getAuctionHouse, printToFile, createDirectory, convert_time
 from results import expandVehicleInfoIdirect, retrieveInfoTest, retrieveInfoUpd
+from errors import checkNoResultsMessage
 
 import asyncio
 WAIT_TIME: int = 10
@@ -24,21 +25,27 @@ def nextResults(webdriver):
 
     startDC = time()
     isEnd = False
+    hasGotAuctionName = False
 
     auctionHouseName = ""
 
     while not isEnd:
         print("Incur python to sleep..")
-
+        # Data Collection lasted for 6 minutes and 32.5 seconds.
+        # //div[@class="no-result-message "][@style="display: none;"]=> for no result message not displayed
+        # //div[@class="no-result-message "][@style=""]=> for no result message not displayed (Note the "")
         sleep(SLEEP_TIME)
 
         expandVehicleInfoIdirect(webdriver)
-        auctionHouseName = getAuctionHouse(webdriver)
 
-        # print(retrieveInfoTest(webdriver))
-        start = time()
-        infoList.extend(retrieveInfoUpd(webdriver))
-        end = time()
+        # init errorchecking..
+        # if error exists => break while loop
+        if checkNoResultsMessage(webdriver):
+            break
+
+        if not hasGotAuctionName:
+            hasGotAuctionName = True
+            auctionHouseName = getAuctionHouse(webdriver)
 
         activePage = WebDriverWait(webdriver, WAIT_TIME).until(
             EC.presence_of_element_located((By.XPATH, getActiveLink)))
@@ -47,6 +54,13 @@ def nextResults(webdriver):
             EC.presence_of_element_located((By.XPATH, f"{getActiveLink}/{getNextLink}")))
 
         print(f"Checking [Page {activePage.text}]..")
+
+        # print(retrieveInfoTest(webdriver))
+        start = time()
+        retrieved_details = retrieveInfoUpd(webdriver)
+        infoList.extend(retrieved_details)
+        end = time()
+        print(retrieved_details)
 
         # activePage.get_attribute('class') == 'disabled' or
         if nextPage.text == "»":
@@ -71,17 +85,20 @@ def nextResults(webdriver):
 
     print(f"Now, getting to check for errors..")
     print()
-    start = time()
+    startCheck = time()
     checkErrorList = errorCheckUpd(infoList)
 
     populate_errors = dictErrors(checkErrorList[1])
-    # print(populate_errors)
+    print(populate_errors)
     print("----------------------------------------------------------")
     printErrors(populate_errors)
-    printToFile(timeDC, createDirectory(), auctionHouseName, populate_errors)
 
-    end = time()
-    print(f"Error checking in {end-start} seconds.")
+    endCheck = time()
+    checkDuration = endCheck - startCheck
+    print(f"Error checking in {convert_time(checkDuration)} seconds.")
+
+    printToFile((timeDC, checkDuration), createDirectory(),
+                auctionHouseName, populate_errors)
 
     # check if //div[@id='loader'][contains(@style,'display: block;')] wait until display: none
     #   loader style --> display: block; top: 0px; bottom: 0px; left: 0px; right: 0px; position: fixed; background-color: rgba(255, 255, 255, 0.7); overflow: hidden; outline: none 0px; z-index: 999; text-align: center; margin-left: -15px; margin-right: -15px;
